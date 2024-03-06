@@ -8,6 +8,6 @@ export default async function handleProfileSignup(firstName, lastName, fileName)
 
   return results.map((result) => ({
     status: result.status,
-    value: result.value || result.reason.message,
+    value: result.value || `Error: ${result.reason.message}`,
   }));
 }
