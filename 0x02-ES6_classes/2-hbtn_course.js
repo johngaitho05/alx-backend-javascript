@@ -15,7 +15,7 @@ export default class HolbertonCourse {
   }
 
   set name(newName) {
-    this._validateString(newName, 'name');
+    this._validateString(newName, 'Name');
     this._name = newName;
   }
 
@@ -25,7 +25,7 @@ export default class HolbertonCourse {
   }
 
   set length(newLength) {
-    this._validateNumber(newLength, 'length');
+    this._validateNumber(newLength, 'Length');
     this._length = newLength;
   }
 
@@ -35,7 +35,7 @@ export default class HolbertonCourse {
   }
 
   set students(newStudents) {
-    this._validateArray(newStudents, 'students');
+    this._validateArray(newStudents, 'Students');
     this._students = newStudents;
   }
 
