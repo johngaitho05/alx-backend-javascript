@@ -1,4 +1,9 @@
-const http = require('http');
+const express = require('express');
+
+const app = express();
+
+const port = 1245;
+
 const fs = require('fs');
 
 const countStudents = (path) => new Promise((resolve, reject) => {
@@ -49,26 +54,25 @@ const countStudents = (path) => new Promise((resolve, reject) => {
   });
 });
 
-const hostname = 'localhost';
-const port = 1245;
-
-const app = http.createServer(async (req, res) => {
-  const url = new URL(req.url, `http://${req.headers.host}`);
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  if (url.pathname === '/') {
-    res.end('Hello Holberton School!');
-  } else if (url.pathname === '/students') {
-    const message = 'This is the list of our students\n';
-    try {
-      const payload = await countStudents(process.argv[2]);
-      res.end(message + payload.join('\n'));
-    } catch (err) {
-      res.end(message + err.message);
-    }
-  }
+app.get('/', (_, res) => {
+  res.send('Hello Holberton School!');
 });
 
-app.listen(port, hostname);
+app.get('/students', (_, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  const message = 'This is the list of our students\n';
+  countStudents(process.argv[2])
+    .then((payload) => {
+      res.send(message + payload.join('\n'));
+    })
+    .catch((err) => {
+      res.send(message + err.message);
+    });
+});
+
+app.listen(port, () => {
+  console.log(`app listening on port ${port}`);
+});
 
 module.exports = app;
